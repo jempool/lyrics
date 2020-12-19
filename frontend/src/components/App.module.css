@@ -12,3 +12,8 @@
 .TextArea {
   padding-top: 40px;
 }
+
+.Button {
+  margin-right: 5px;
+  margin-left: 5px;
+}

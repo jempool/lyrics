@@ -8,7 +8,9 @@ const App = () => {
   const [title, setTitle] = useState("");
   const [lyrics, setLyrics] = useState("");
   const [stats, setStats] = useState({ words: 0, lines: 0 });
+  const [translation, setTranslation] = useState("");
 
+  // OnClick handler for fetching adn desplay de lyrics
   const onClick = (event) => {
     event.preventDefault();
     console.log({ artist: artist, title: title });
@@ -37,6 +39,7 @@ const App = () => {
     }
   };
 
+  //Function to calculate the stats
   const calculateStats = (lyrics) => {
     const payload = { lyrics: lyrics };
     axios
@@ -45,6 +48,21 @@ const App = () => {
         if ((response.status = 200)) {
           console.log(response.data);
           setStats(response.data);
+        } else {
+          console.log("something is bad with stats request");
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  //Handler for the translate requests
+  const translateHandler = (event) => {
+    event.preventDefault();
+    const payload = { lyrics: lyrics };
+    axios
+      .post("http://localhost:3001/translate", payload)
+      .then((response) => {
+        if ((response.status = 200)) {
+          console.log(response.data);          
         } else {
           console.log("something is bad with stats request");
         }
@@ -85,7 +103,11 @@ const App = () => {
               </Col>
             </Row>
 
-            <Button color="primary" onClick={onClick}>
+            <Button
+              className={classes.Button}
+              color="primary"
+              onClick={onClick}
+            >
               Find Lyrics!
             </Button>
 
@@ -107,6 +129,32 @@ const App = () => {
               </p>
             </div>
           </Form>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col sm="12">
+          <Button
+            className={classes.Button}
+            color="primary"
+            onClick={translateHandler}
+            disabled={!lyrics.length}
+          >
+            Translate
+          </Button>
+          <div className={classes.TextArea}>
+            <FormGroup>
+              <Input
+                style={{ textAlign: "center" }}
+                type="textarea"
+                name="translation"
+                id="translation"
+                rows="10"
+                defaultValue={translation}
+                placeholder="...Nothing translated yet"
+              />
+            </FormGroup>
+          </div>
         </Col>
       </Row>
     </div>
