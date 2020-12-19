@@ -1,0 +1,36 @@
+
+### GET request to lyrics API ###
+https://api.lyrics.ovh/v1/metallica/one HTTP/1.1
+
+
+### POST request to count ###
+POST http://localhost:3001/count HTTP/1.1
+content-type: application/json
+
+{
+    "lyrics": "I can't remember anything\r\nCan't tell if this is true or dream \nDeep down inside I feel to scream \nThis terrible silence stops me \nNow that the war is through with me \n\nI'm waking up, I cannot see \n\nThat there is not much left of me \n\nNothing is real but pain now \n\n\n\nHold my breath as I wish for death \n\nOh please, God, wake me \n\n\n\nBack in the womb it's much \n\ntoo real \n\nIn pumps life that I must feel \n\nBut can't look forward to reveal \n\nLook to the time when I'll live \n\n\n\nFed through the tube that sticks in me \n\nJust like a wartime novelty \n\nTied to machines that make me be \n\nCut this life off from me \n\n\n\nHold my breath as I wish for death \n\nOh please, God, wake me \n\n\n\nNow the world is gone, I'm just one \n\nOh God, help me \n\nHold my breath as I wish for death \n\nOh please, God, help me \n\n\n\nDarkness imprisoning me \n\nAll that I see \n\nAbsolute horror \n\nI cannot live \n\nI cannot die \n\nTrapped in myself \n\nBody my holding cell \n\n\n\nLandmine has taken my sight \n\nTaken my speech \n\nTaken my hearing \n\nTaken my arms \n\nTaken my legs \n\nTaken my soul \n\nLeft me with life in hell"
+}
+
+
+### POST request to count ###
+POST http://localhost:3001/translate HTTP/1.1
+content-type: application/json
+
+{
+    "lyrics": "I can't remember anything\r\nCan't tell if this is true or dream \nDeep down inside I feel to scream \nThis terrible silence stops me \nNow that the war is through with me \n\nI'm waking up, I cannot see \n\nThat there is not much left of me \n\nNothing is real but pain now \n\n\n\nHold my breath as I wish for death \n\nOh please, God, wake me \n\n\n\nBack in the womb it's much \n\ntoo real \n\nIn pumps life that I must feel \n\nBut can't look forward to reveal \n\nLook to the time when I'll live \n\n\n\nFed through the tube that sticks in me \n\nJust like a wartime novelty \n\nTied to machines that make me be \n\nCut this life off from me \n\n\n\nHold my breath as I wish for death \n\nOh please, God, wake me \n\n\n\nNow the world is gone, I'm just one \n\nOh God, help me \n\nHold my breath as I wish for death \n\nOh please, God, help me \n\n\n\nDarkness imprisoning me \n\nAll that I see \n\nAbsolute horror \n\nI cannot live \n\nI cannot die \n\nTrapped in myself \n\nBody my holding cell \n\n\n\nLandmine has taken my sight \n\nTaken my speech \n\nTaken my hearing \n\nTaken my arms \n\nTaken my legs \n\nTaken my soul \n\nLeft me with life in hell"
+}
+
+
+
+### POST request to translator API ###
+POST https://api-b2b.backenster.com/b1/api/v3/translate HTTP/1.1
+content-type: application/json
+Authorization: Bearer a_ItVQVpy8n2JpN7SO382k7W0vMPV3O27WE9QQ0PXkAAAPDX9HEHRS5VJmcPuOPGzZoH2U0PglLUVbv2W0
+
+{
+    "from": "en_GB",
+    "to": "es_CO",
+    "data": "Welcome Developers",
+    "platform": "api"
+    }
+

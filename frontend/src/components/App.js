@@ -7,7 +7,10 @@ const App = () => {
   const [artist, setArtist] = useState("");
   const [title, setTitle] = useState("");
   const [lyrics, setLyrics] = useState("");
+  const [stats, setStats] = useState({ words: 0, lines: 0 });
+  const [translation, setTranslation] = useState("");
 
+  // OnClick handler for fetching adn desplay de lyrics
   const onClick = (event) => {
     event.preventDefault();
     console.log({ artist: artist, title: title });
@@ -19,7 +22,7 @@ const App = () => {
         .get(`https://api.lyrics.ovh/v1/${artist}/${title}`)
         .then((response) => {
           if ((response.status = 200)) {
-            console.log(response);
+            // console.log(response);
 
             const lyrics =
               response.data.lyrics === ""
@@ -27,13 +30,46 @@ const App = () => {
                 : response.data.lyrics;
 
             setLyrics(lyrics);
+            calculateStats(lyrics);
           } else {
-            console.log("something is bad with request");
+            console.log("something is bad with lyrics request");
           }
         })
         .catch((error) => console.log(error));
     }
   };
+
+  //Function to calculate the stats
+  const calculateStats = (lyrics) => {
+    const payload = { lyrics: lyrics };
+    axios
+      .post("http://localhost:3001/count", payload)
+      .then((response) => {
+        if ((response.status = 200)) {
+          console.log(response.data);
+          setStats(response.data);
+        } else {
+          console.log("something is bad with stats request");
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+  //Handler for the translate requests
+  const translateHandler = (event) => {
+    event.preventDefault();
+    const payload = { lyrics: lyrics };
+    axios
+      .post("http://localhost:3001/translate", payload)
+      .then((response) => {
+        if ((response.status = 200)) {
+          console.log(response.data);          
+        } else {
+          console.log("something is bad with stats request");
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className={classes.App}>
       <h4>Lyrics Finder</h4>
@@ -67,15 +103,18 @@ const App = () => {
               </Col>
             </Row>
 
-            <Button color="primary" onClick={onClick}>
+            <Button
+              className={classes.Button}
+              color="primary"
+              onClick={onClick}
+            >
               Find Lyrics!
             </Button>
 
             <div className={classes.TextArea}>
               <FormGroup>
-                {/* <Label for="result">Result</Label> */}
                 <Input
-                style={{textAlign:'center'}}
+                  style={{ textAlign: "center" }}
                   type="textarea"
                   name="result"
                   id="result"
@@ -84,8 +123,38 @@ const App = () => {
                   placeholder="...Nothing around here"
                 />
               </FormGroup>
+              <p>
+                <b>Stats</b>
+                {` - Song has ${stats.words} words and ${stats.lines} lines`}
+              </p>
             </div>
           </Form>
+        </Col>
+      </Row>
+
+      <Row>
+        <Col sm="12">
+          <Button
+            className={classes.Button}
+            color="primary"
+            onClick={translateHandler}
+            disabled={!lyrics.length}
+          >
+            Translate
+          </Button>
+          <div className={classes.TextArea}>
+            <FormGroup>
+              <Input
+                style={{ textAlign: "center" }}
+                type="textarea"
+                name="translation"
+                id="translation"
+                rows="10"
+                defaultValue={translation}
+                placeholder="...Nothing translated yet"
+              />
+            </FormGroup>
+          </div>
         </Col>
       </Row>
     </div>
