@@ -11,7 +11,7 @@ const App = () => {
   const onClick = (event) => {
     event.preventDefault();
     console.log({ artist: artist, title: title });
-
+    setLyrics("");
     if (artist !== "" && title !== "") {
       // [GET]https://api.lyrics.ovh/v1/{:artist}/{:title}
       // https://api.lyrics.ovh/v1/Queen/BohemianRhapsody
