@@ -7,6 +7,7 @@ const App = () => {
   const [artist, setArtist] = useState("");
   const [title, setTitle] = useState("");
   const [lyrics, setLyrics] = useState("");
+  const [stats, setStats] = useState({ words: 0, lines: 0 });
 
   const onClick = (event) => {
     event.preventDefault();
@@ -19,7 +20,7 @@ const App = () => {
         .get(`https://api.lyrics.ovh/v1/${artist}/${title}`)
         .then((response) => {
           if ((response.status = 200)) {
-            console.log(response);
+            // console.log(response);
 
             const lyrics =
               response.data.lyrics === ""
@@ -27,13 +28,30 @@ const App = () => {
                 : response.data.lyrics;
 
             setLyrics(lyrics);
+            calculateStats(lyrics);
           } else {
-            console.log("something is bad with request");
+            console.log("something is bad with lyrics request");
           }
         })
         .catch((error) => console.log(error));
     }
   };
+
+  const calculateStats = (lyrics) => {
+    const payload = { lyrics: lyrics };
+    axios
+      .post("http://localhost:3001/count", payload)
+      .then((response) => {
+        if ((response.status = 200)) {
+          console.log(response.data);
+          setStats(response.data);
+        } else {
+          console.log("something is bad with stats request");
+        }
+      })
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className={classes.App}>
       <h4>Lyrics Finder</h4>
@@ -73,9 +91,8 @@ const App = () => {
 
             <div className={classes.TextArea}>
               <FormGroup>
-                {/* <Label for="result">Result</Label> */}
                 <Input
-                style={{textAlign:'center'}}
+                  style={{ textAlign: "center" }}
                   type="textarea"
                   name="result"
                   id="result"
@@ -84,6 +101,10 @@ const App = () => {
                   placeholder="...Nothing around here"
                 />
               </FormGroup>
+              <p>
+                <b>Stats</b>
+                {` - Song has ${stats.words} words and ${stats.lines} lines`}
+              </p>
             </div>
           </Form>
         </Col>
